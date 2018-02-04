@@ -7,6 +7,7 @@ import Person from './classes/person.js';
 import Settings from './classes/settings.js';
 import {saveStudents} from './dataservice.js';
 import GradedTaskPage from './components/gradedTaskPage.js';
+import RankingListItemPage from './components/rankingListItemPage.js';
 import React from 'react';
 import reactDOM from 'react-dom';
 import {events} from './lib/eventsPubSubs.js';
@@ -99,6 +100,11 @@ function initRouter() {
               /*reactDOM.render(<GradedTaskPage gtInstance={gtInstance} terms={Settings.getTerms()} />, document.getElementById('content'));*/
               //gtInstance.getHTMLEdit();
               break;
+            case /#reactTest/.test(isLink.href):
+              reactDOM.render(<RankingListItemPage student={{id:'6454',name:'Paco', surnames:'El Maco',fg:78,xp:50,gt:50}} />, document.getElementById('content'));
+
+              break;
+
             default:
               context.isLogged();
           }
