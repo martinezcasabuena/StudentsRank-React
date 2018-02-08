@@ -8,6 +8,7 @@ import Settings from './classes/settings.js';
 import {saveStudents} from './dataservice.js';
 import GradedTaskPage from './components/gradedTaskPage.js';
 import RankingListItemPage from './components/rankingListItemPage.js';
+import RankingListPage from './components/rankingListPage.js';
 import React from 'react';
 import reactDOM from 'react-dom';
 import {events} from './lib/eventsPubSubs.js';
@@ -95,14 +96,15 @@ function initRouter() {
             case /#detailGradedTask/.test(isLink.href):
               let gtInstance = GradedTask.getGradedTaskById(getIdFromURL(isLink.href));	    
                 
-              reactDOM.render(<GradedTaskPage props={gtInstance} allowedWeight={(100 - GradedTask.getGradedTasksTotalWeight() - gtInstance.weight)} />, document.getElementById('content'));
-             	
+              reactDOM.render(<GradedTaskPage props={gtInstance} allowedWeight={(100 - GradedTask.getGradedTasksTotalWeight() + parseInt(gtInstance.weight))} />, document.getElementById('content'));
+              
               /*reactDOM.render(<GradedTaskPage gtInstance={gtInstance} terms={Settings.getTerms()} />, document.getElementById('content'));*/
               //gtInstance.getHTMLEdit();
               break;
             case /#reactTest/.test(isLink.href):
-              reactDOM.render(<RankingListItemPage student={{id:'6454',name:'Paco', surnames:'El Maco',fg:78,xp:50,gt:50}} />, document.getElementById('content'));
-
+              //reactDOM.render(<RankingListItemPage student={{id:'6454',name:'Paco', surnames:'El Maco',fg:78,xp:50,gt:50}} />, document.getElementById('content'));
+              reactDOM.render(<RankingListPage gtWeight={Settings.getGtWeight()} xpWeight={Settings.getXpWeight()} students= {Person.getStudentsFromMap()} gradedTasks= {GradedTask.getGradedTasksFromMap()}/>, document.getElementById('content'));
+              
               break;
 
             default:

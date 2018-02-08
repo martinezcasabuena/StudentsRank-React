@@ -6,12 +6,12 @@ class GradedTaskPage extends React.Component {
         super(props);
 
         this.state = {                
-                name: props.props.name,
-                description: props.props.description,
-                weight:props.props.weight,
-                term:props.props.term,
-                id:props.props.id,         
-                allowedWeight:props.allowedWeight
+            name: props.props.name,
+            description: props.props.description,
+            weight:props.props.weight,
+            term:props.props.term,
+            id:props.props.id,         
+            allowedWeight:props.allowedWeight
         }        
         
         this.handleInputChange = this.handleInputChange.bind(this);   

@@ -128,7 +128,10 @@ class Person {
     try {     
       gradedtaskMAP.forEach((valueGT) => {
         console.log('MERDA ' + valueGT.id + 'Person id ' + this.id);
-        gtArray.push([valueGT.id,valueGT.studentsMarkMAP.get(this.id)]);
+        //gtArray.push([valueGT.id,valueGT.studentsMarkMAP.get(this.id)]);
+        gtArray.push([valueGT.id,valueGT.studentsMarkMAP.get(this.id),{name:valueGT.name,
+          weight:valueGT.weight}]);
+        
       });
 
       if (settings.defaultTerm !== 'ALL') {
@@ -356,6 +359,10 @@ class Person {
   static deleteById(idPerson) {
     students.delete(idPerson);
     events.publish('dataservice/saveStudents',JSON.stringify([...students]));
+  }
+  static getStudentsFromMap() {
+    return [...students.entries()];
+    //return students;
   }
 }
 
