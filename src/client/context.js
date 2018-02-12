@@ -17,6 +17,11 @@ import {events} from './lib/eventsPubSubs.js';
 import $ from "jquery";
 import toastr from "toastr";
 
+import RankingListPage from './components/rankingListPage.js';
+import React from 'react';
+import reactDOM from 'react-dom';
+import Settings from './classes/settings.js';
+
 class Context {
 
   constructor() {
@@ -32,7 +37,12 @@ class Context {
     /*events.subscribe('/context/newGradedTask', () => {
       this.getTemplateRanking();
     });*/
+
+    events.subscribe('/context/getRankingTable', () => {
+      this.getTemplateRanking();
+    });
   }
+  
   /** Clear context  */
   clear() {
     this.user = undefined;
@@ -101,8 +111,11 @@ class Context {
 
   /** Draw Students ranking table in descendent order using total points as a criteria */
   getTemplateRanking() {
+    reactDOM.unmountComponentAtNode(document.getElementById('content')); //umount react component    
     generateMenu();
-    Person.getRankingTable();
+    reactDOM.render(<RankingListPage gtWeight={Settings.getGtWeight()} xpWeight={Settings.getXpWeight()}
+    students= {Person.getStudentsFromMap()} gradedTasks= {GradedTask.getGradedTasksFromMap()}/>, document.getElementById('content'));    
+    //Person.getRankingTable();
   }
   /** Add last action performed to lower information layer in main app */
   notify(text,title,type='success') {

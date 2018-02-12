@@ -14,25 +14,20 @@ class RankingListItemPage extends React.Component {
             xp:props.student[1].getXPtotalPoints(),
             gt:props.student[1].getGTtotalPoints(),
             index:props.index,
-            //gradedTasks:props.gradedTasks,
             gradedTasks:props.student[1].getStudentMarks()
-        }        
-        
-        //this.handleInputChange = this.handleInputChange.bind(this);   
-        //this.handleSubmit = this.handleSubmit.bind(this);
-        console.log(this.state.gradedTasks);
+        }
     }
 
     render() {
         const gradedTaskItems = this.state.gradedTasks.map((gradedTask) =>
-        <GradedTaskItemPage key={gradedTask[0]} gradedTask={gradedTask} />            
+        <GradedTaskItemPage key={gradedTask[0]} gradedTask={gradedTask} student={this.state.id} />            
         );
         return (
             <tr className="js-rowStudent">
             <td className="w-5" id="sorting"><h3>{this.state.index}</h3></td>
             <td className="w-35">
                     <img className="profile" src="src/server/data/fotos/-569543398.jpg" height="60" width="48"/>
-                    <a className="text-info" href='#student/{this.state.id}'>{this.state.surnames}, {this.state.name}</a>
+                    <a className="text-info" href={'#student/' + this.state.id}>{this.state.surnames}, {this.state.name}</a>
                 </td>
                 <td className="w-60">
                     <table id="scoreTable" className="table-condensed" width="100%">

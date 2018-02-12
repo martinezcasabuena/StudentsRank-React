@@ -105,6 +105,7 @@ class GradedTask extends Task {
     return this.studentsMarkMAP.get(idStudent);
   }
 
+  /** Returns the graded tasks */
   static getGradedTasksFromMap() {
     return [...gradedTasks.entries()];
     //return students;

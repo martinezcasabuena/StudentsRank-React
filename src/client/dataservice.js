@@ -19,6 +19,7 @@ events.subscribe('dataservice/saveGradedTasks',(gradedTasksJSON) => {
   saveGradedTasks(gradedTasksJSON);
 });
 events.subscribe('dataservice/saveStudents',(studentsJSON) => {
+  console.log(studentsJSON);
   saveStudents(studentsJSON);
 });
 

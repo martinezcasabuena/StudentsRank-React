@@ -86,6 +86,11 @@ class AttitudeTask extends Task {
   static getAttitudeById(idTask) {
     return attitudeTasks.get(idTask);
   }
+
+  /** Returns the graded tasks */
+  static getAttitudeTasksFromMap() {
+    return [...attitudeTasks.entries()];
+  }
 }
 
 export default AttitudeTask;

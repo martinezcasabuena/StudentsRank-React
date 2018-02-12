@@ -10,26 +10,24 @@ class GradedTaskItemPage extends React.Component {
             taskMark:props.gradedTask[1],            
             taskName:props.gradedTask[2].name,
             taskWeight:props.gradedTask[2].weight,
+            idStudent:props.student
         }
-        
-        this.handleInputChange = this.handleInputChange.bind(this);   
-        this.handleSubmit = this.handleSubmit.bind(this);
-
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleInputOnBlur = this.handleInputOnBlur.bind(this);   
     }
 
     handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-    
+
         this.setState({
           [name]: value
         });
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
-        events.publish('dataservice/SaveGradedTask',this.state);        
+    handleInputOnBlur(event){
+        events.publish('student/changeStudentMark',this.state);
     }
 
     render() {
@@ -45,9 +43,9 @@ class GradedTaskItemPage extends React.Component {
                         </tr>                
                         <tr>    
                             <td>
-                                <input type='number' className='gradedTaskInput' data-idstudent='{this.state.id}'
-                                data-idgradedtask={this.state.taskId} min="0" max="100" defaultValue={this.state.taskMark}
-                                onChange={this.handleInputChange}/>
+                                <input type='number' name="taskMark" className='gradedTaskInput' data-idstudent={this.state.idStudent}
+                                data-idgradedtask={this.state.taskId} min="0" max="100" value={this.state.taskMark}
+                                onChange={this.handleInputChange} onBlur={this.handleInputOnBlur} />
                             </td> 
                         </tr>
                     </tbody>

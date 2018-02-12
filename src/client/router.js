@@ -9,6 +9,9 @@ import {saveStudents} from './dataservice.js';
 import GradedTaskPage from './components/gradedTaskPage.js';
 import RankingListItemPage from './components/rankingListItemPage.js';
 import RankingListPage from './components/rankingListPage.js';
+import PersonPage from './components/personPage.js';
+import PersonDetailPage from './components/personDetailPage.js';
+
 import React from 'react';
 import reactDOM from 'react-dom';
 import {events} from './lib/eventsPubSubs.js';
@@ -30,12 +33,15 @@ function initRouter() {
             /** View Student information detail */
             case /#student/.test(isLink.href):
               let personInstance = Person.getPersonById(getIdFromURL(isLink.href));
-              personInstance.getHTMLDetail();
+              //personInstance.getHTMLDetail();
+              console.log(personInstance);
+              reactDOM.render(<PersonDetailPage student={personInstance} />, document.getElementById('content'));
               break;
             /** Modify student information */
             case /#editStudent/.test(isLink.href):
               personInstance = Person.getPersonById(getIdFromURL(isLink.href));
-              personInstance.getHTMLEdit();
+              //personInstance.getHTMLEdit();
+              reactDOM.render(<PersonPage props={personInstance} />, document.getElementById('content'));              
               break;
             /** Delete student with confirmation */
             case /#deleteStudent/.test(isLink.href):
@@ -63,7 +69,8 @@ function initRouter() {
               break;
             /** Add new student form */
             case /#addStudent/.test(isLink.href):
-              Person.addPerson();
+              //Person.addPerson();
+              reactDOM.render(<PersonPage props={{}}/>, document.getElementById('content'));              
               break;
             case /#settings/.test(isLink.href):
               //context.getSettings();
@@ -103,8 +110,8 @@ function initRouter() {
               break;
             case /#reactTest/.test(isLink.href):
               //reactDOM.render(<RankingListItemPage student={{id:'6454',name:'Paco', surnames:'El Maco',fg:78,xp:50,gt:50}} />, document.getElementById('content'));
-              reactDOM.render(<RankingListPage gtWeight={Settings.getGtWeight()} xpWeight={Settings.getXpWeight()} students= {Person.getStudentsFromMap()} gradedTasks= {GradedTask.getGradedTasksFromMap()}/>, document.getElementById('content'));
-              
+              //reactDOM.render(<RankingListPage gtWeight={Settings.getGtWeight()} xpWeight={Settings.getXpWeight()} students= {Person.getStudentsFromMap()} gradedTasks= {GradedTask.getGradedTasksFromMap()}/>, document.getElementById('content'));
+              Person.getRankingTable();
               break;
 
             default:
