@@ -13,14 +13,7 @@ class RankingListPage extends React.Component {
                 xpWeight:props.xpWeight,
                 gradedTasks:props.gradedTasks
         };
-        
-        // events.subscribe('students/changeStudentMark',(obj)=> {
-        //     console.log(obj);
-        //     /*this.setState({
-        //         students:obj
-        //     })*/
-        // })
-        
+
         this.handleClick = this.handleClick.bind(this);
     }
 
@@ -40,13 +33,29 @@ class RankingListPage extends React.Component {
         if (getCookie('expandedView') === 'visible') {
             $('.tableGradedTasks').show();
             $('.fa-hand-o-right').addClass('fa-hand-o-down').removeClass('fa-hand-o-right');
-          }else {
+        }else {
             $('.tableGradedTasks').hide();
             $('.fa-hand-o-down').addClass('fa-hand-o-right').removeClass('fa-hand-o-down');
           }        
       }
 
+    componentWillUpdate(){
+        console.log("UPDATE");
+        this.sortStudents();
+    }
+
+    sortStudents(){
+        if (getCookie('expandedView') !== 'visible') {
+            this.state.students.sort(function(a,b) {
+                return (b[1].getFinalGrade() - a[1].getFinalGrade());
+            }); 
+        }
+    }
+
     render() {
+        console.log("RENDER");
+        this.sortStudents();
+
         let cont =1;
         const studentsItems = this.state.students.map((student) =>
             <RankingListItemPage key={student[0]} index={cont++} student={student}

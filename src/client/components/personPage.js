@@ -1,5 +1,6 @@
 import React from 'react';
 import {events} from '../lib/eventsPubSubs.js';
+import { loadTemplate } from '../lib/utils';
 
 class PersonPage extends React.Component {
     constructor(props){
@@ -14,7 +15,7 @@ class PersonPage extends React.Component {
         }        
         console.log(this.state.studentName);
         this.handleInputChange = this.handleInputChange.bind(this);   
-        this.handleSubmit = this.handleSubmit.bind(this);      
+        this.handleSubmit = this.handleSubmit.bind(this);
 
     }
 
@@ -34,6 +35,9 @@ class PersonPage extends React.Component {
         //console.log(this.state);
         events.publish('dataservice/SaveStudent',this.state);   
         //alert("STOP");
+
+        //formData.append('idStudent',id);
+        //loadTemplate('api/uploadImage')
     }
 
     render() {

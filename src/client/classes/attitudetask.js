@@ -30,6 +30,35 @@ events.subscribe('dataservice/getAttitudeTasks',(obj) => {
   events.publish('attitudeTask/change',attitudeTasks);
 });
 
+//Add XP to student
+events.subscribe('attitudeTask/addXPtoStudent',(obj) =>{
+  //$('#XPModal').modal('toggle');
+  //$('.modal-backdrop').remove();
+  let at = attitudeTasks.get(parseInt(obj.idTask));
+  at.hits++;
+  obj.student.addAttitudeTask(at);
+});
+
+//Add new XP task
+events.subscribe('attitudeTask/addNewXPTask',(obj) =>{
+  console.log(obj);
+  let points = $('#points').val();
+  let description = $('#description').val();
+  // let points = obj.taskForm.taskPoints;
+  // let description = obj.taskForm.taskDescription;
+  // console.log(obj);
+  let at = new AttitudeTask(description,description,points);
+  attitudeTasks.set(at.id,at);
+
+  events.publish('dataservice/saveAttitudeTasks',JSON.stringify([...attitudeTasks]));    
+  events.publish('attitudeTask/change',attitudeTasks);
+  //$('#XPModal').modal('toggle');
+  //$('.modal-backdrop').remove();
+  at.hits++;
+  obj.student.addAttitudeTask(at);
+  
+});
+
 class AttitudeTask extends Task {
   constructor(name,description,points,hits=0,id=null) {
     super(name,description,id);

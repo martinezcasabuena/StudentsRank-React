@@ -58,7 +58,7 @@ events.subscribe('settings/change',(obj) => {
   settings = obj;
 });
 
-events.subscribe('students/new',(obj) => {
+events.subscribe('student/new',(obj) => {
   gradedTasks.forEach(function(iGradedTask) {
     iGradedTask.addStudentMark(obj.getId(),0);
   });

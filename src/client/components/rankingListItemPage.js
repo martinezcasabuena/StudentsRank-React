@@ -16,9 +16,25 @@ class RankingListItemPage extends React.Component {
             index:props.index,
             gradedTasks:props.student[1].getStudentMarks()
         }
+
+        this.handleMouseHover = this.handleMouseHover.bind(this);
+    }
+
+    handleMouseHover(event){
+        $('.profile').each(function(index) {
+            $(this).mouseenter(function() { //TEST
+              $(this).removeAttr('width'); //TEST
+              $(this).removeAttr('height'); //TEST
+            });
+            $(this).mouseout(function() { //TEST
+              $(this).attr('width',48); //TEST
+              $(this).attr('height',60); //TEST
+            });
+        });
     }
 
     render() {
+        //const gradedTaskItems = this.state.gradedTasks.reverse().map((gradedTask) =>
         const gradedTaskItems = this.state.gradedTasks.map((gradedTask) =>
         <GradedTaskItemPage key={gradedTask[0]} gradedTask={gradedTask} student={this.state.id} />            
         );
@@ -26,7 +42,7 @@ class RankingListItemPage extends React.Component {
             <tr className="js-rowStudent">
             <td className="w-5" id="sorting"><h3>{this.state.index}</h3></td>
             <td className="w-35">
-                    <img className="profile" src="src/server/data/fotos/-569543398.jpg" height="60" width="48"/>
+                    <img className="profile" src="src/server/data/fotos/-569543398.jpg" height="60" width="48" onMouseOver={this.handleMouseHover}/>
                     <a className="text-info" href={'#student/' + this.state.id}>{this.state.surnames}, {this.state.name}</a>
                 </td>
                 <td className="w-60">

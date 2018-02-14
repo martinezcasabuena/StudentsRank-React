@@ -11,7 +11,7 @@ import RankingListItemPage from './components/rankingListItemPage.js';
 import RankingListPage from './components/rankingListPage.js';
 import PersonPage from './components/personPage.js';
 import PersonDetailPage from './components/personDetailPage.js';
-
+import ModalAttitudeTaskPage from './components/modalAttitudeTaskPage.js';
 import React from 'react';
 import reactDOM from 'react-dom';
 import {events} from './lib/eventsPubSubs.js';
@@ -34,8 +34,7 @@ function initRouter() {
             case /#student/.test(isLink.href):
               let personInstance = Person.getPersonById(getIdFromURL(isLink.href));
               //personInstance.getHTMLDetail();
-              console.log(personInstance);
-              reactDOM.render(<PersonDetailPage student={personInstance} />, document.getElementById('content'));
+              reactDOM.render(<PersonDetailPage student={personInstance} attitudeTask={AttitudeTask}/>, document.getElementById('content'));
               break;
             /** Modify student information */
             case /#editStudent/.test(isLink.href):
@@ -59,13 +58,15 @@ function initRouter() {
                 var matchResults = isLink.href.match(reg);
                 personInstance = Person.getPersonById(matchResults[1]);
                 personInstance.deleteXP(parseInt(getIdFromURL(isLink.href)));
-                personInstance.getHTMLDetail();
+                //personInstance.getHTMLDetail();
+                context.getTemplateRanking();                
               }
               break;
             /** Show popup associated to an student in order to assign XP points  */
             case /#addXP/.test(isLink.href):
               personInstance = Person.getPersonById(getIdFromURL(isLink.href));
-              AttitudeTask.addXP(personInstance);
+              reactDOM.render(<ModalAttitudeTaskPage student={personInstance} attitudeTasks={AttitudeTask.getAttitudeTasksFromMap()}/>, document.getElementById('modal'));              
+              //AttitudeTask.addXP(personInstance);
               break;
             /** Add new student form */
             case /#addStudent/.test(isLink.href):

@@ -3,12 +3,12 @@
     {
       "defaultSubject": "Prueba",
       "src": "src/server/data/333342/Prueba/students.json",
-      "hits": 3
+      "hits": 6
     },
     {
       "defaultSubject": "prueba",
       "src": "src/server/data/333342/prueba/students.json",
-      "hits": 2
+      "hits": 1
     }
   ]
 }
