@@ -48,9 +48,11 @@ class ModalAttitudeTaskPage extends React.Component {
           });
     
         return (
+            <div>
+            <button type="button" data-target="#XPModal" data-toggle="modal" class="btn btn-info btn-lg">Update</button>
             
-            // <div className="modal fade" id="XPModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div id="XPModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">            
+             {/* <div className="modal fade" id="XPModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> */}
+            <div className="modal fade" id="XPModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">            
                <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -94,6 +96,7 @@ class ModalAttitudeTaskPage extends React.Component {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         );
     }

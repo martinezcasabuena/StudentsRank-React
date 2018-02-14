@@ -34,7 +34,8 @@ function initRouter() {
             case /#student/.test(isLink.href):
               let personInstance = Person.getPersonById(getIdFromURL(isLink.href));
               //personInstance.getHTMLDetail();
-              reactDOM.render(<PersonDetailPage student={personInstance} attitudeTask={AttitudeTask}/>, document.getElementById('content'));
+              reactDOM.render(<PersonDetailPage student={personInstance} attitudeTasks={AttitudeTask}
+              gradedTasks={personInstance.getStudentMarks()}/>, document.getElementById('content'));
               break;
             /** Modify student information */
             case /#editStudent/.test(isLink.href):
@@ -110,8 +111,6 @@ function initRouter() {
               //gtInstance.getHTMLEdit();
               break;
             case /#reactTest/.test(isLink.href):
-              //reactDOM.render(<RankingListItemPage student={{id:'6454',name:'Paco', surnames:'El Maco',fg:78,xp:50,gt:50}} />, document.getElementById('content'));
-              //reactDOM.render(<RankingListPage gtWeight={Settings.getGtWeight()} xpWeight={Settings.getXpWeight()} students= {Person.getStudentsFromMap()} gradedTasks= {GradedTask.getGradedTasksFromMap()}/>, document.getElementById('content'));
               Person.getRankingTable();
               break;
 

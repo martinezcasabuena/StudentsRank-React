@@ -71,9 +71,7 @@ events.subscribe('attitudeTask/change',(obj) => {
 
 events.subscribe('gradedTask/change',(obj) => {
   gradedtaskMAP = obj;
-  //Person.getRankingTable();
-  reactDOM.render(<RankingListPage gtWeight={Settings.getGtWeight()} xpWeight={Settings.getXpWeight()}
-  students= {Person.getStudentsFromMap()} gradedTasks= {GradedTask.getGradedTasksFromMap()}/>, document.getElementById('content'));   
+  Person.getRankingTable();
 });
 
 events.subscribe('dataservice/getStudents',(obj) => {
@@ -178,7 +176,7 @@ class Person {
         //console.log('MERDA ' + valueGT.id + 'Person id ' + this.id);
         //gtArray.push([valueGT.id,valueGT.studentsMarkMAP.get(this.id)]);
         gtArray.push([valueGT.id,valueGT.studentsMarkMAP.get(this.id),{name:valueGT.name,
-          weight:valueGT.weight,datetime:valueGT.datetime}]);
+          weight:valueGT.weight,datetime:formatDate(new Date(valueGT.datetime))}]);
         
       });
 
@@ -327,8 +325,11 @@ class Person {
     return students.get(parseInt(idHash));
   }
   static getRankingTable() {
-    if (students && students.size > 0) {
-      /* We sort students in descending order from max number of points to min when we are in not expanded view */
+    reactDOM.render(<RankingListPage gtWeight={Settings.getGtWeight()} xpWeight={Settings.getXpWeight()}
+    students= {Person.getStudentsFromMap()} gradedTasks= {GradedTask.getGradedTasksFromMap()}/>, document.getElementById('content'));   
+    
+    /*if (students && students.size > 0) {
+     // /* We sort students in descending order from max number of points to min when we are in not expanded view 
       let arrayFromMap = [...students.entries()];
 
       if ($('.tableGradedTasks').is(':hidden')) {
@@ -396,15 +397,13 @@ class Person {
             });
     }else {
       $('#content').html('NO STUDENTS YET');
-    }
+    }*/
   }
   static addStudent(studentInstance) {
     events.publish('student/new',studentInstance);
     students.set(studentInstance.getId(),studentInstance);
     events.publish('dataservice/saveStudents',JSON.stringify([...students])); 
     events.publish('/context/getRankingTable');
-    //reactDOM.render(<RankingListPage gtWeight={Settings.getGtWeight()} xpWeight={Settings.getXpWeight()}
-    //students= {Person.getStudentsFromMap()} gradedTasks= {GradedTask.getGradedTasksFromMap()}/>, document.getElementById('content'));   
   }
   static getStudentsSize() {
     return students.size;
@@ -415,7 +414,6 @@ class Person {
   }
   static getStudentsFromMap() {
     return [...students.entries()];
-    //return students;
   }
 }
 

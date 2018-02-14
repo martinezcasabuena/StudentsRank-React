@@ -1,6 +1,5 @@
 import React from 'react';
 import {events} from '../lib/eventsPubSubs.js';
-import {formatDate} from '../lib/utils.js';
 
 class PersonDetailAttitudeItemPage extends React.Component {
     constructor(props){
@@ -18,7 +17,7 @@ class PersonDetailAttitudeItemPage extends React.Component {
                 <li className="list-group-item">
                     <a href={'#deleteXP/' + this.state.idStudent +'/' + this.state.atTask.id} >
                         <button className='btnS btn btn-danger'><i className='fa fa-trash-o fa-1x'></i></button>
-                    </a> {this.state.atTask.points} -> {this.state.atTask.description} ->  {formatDate(new Date(this.state.atTask.datetime))}
+                    </a> {this.state.atTask.points} -> {this.state.atTask.description} ->  {this.state.atTask.datetime}
                 </li> 
             </div>
         );

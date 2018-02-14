@@ -9,8 +9,10 @@ class PersonDetailPage extends React.Component {
 
         this.state = {  
             student:props.student,              
-            attitudeTask:props.attitudeTask
+            attitudeTask:props.attitudeTasks,
+            gradedTasks:props.gradedTasks
         }
+        console.log(props);
     }
     render() {
         const attitudeTasksItems = this.state.student.attitudeTasks.reverse().map((attitudeTask) =>
@@ -18,7 +20,7 @@ class PersonDetailPage extends React.Component {
         idStudent={this.state.student.id}/>
         );
 
-        const gradedTasksItems = this.state.student.getStudentMarks().map((gradedTask) =>
+        const gradedTasksItems = this.state.gradedTasks.map((gradedTask) =>
         <PersonDetailGradedItemPage gradedTask={gradedTask}/>
         );
 

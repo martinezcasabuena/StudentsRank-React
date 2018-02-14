@@ -1,7 +1,5 @@
 import React from 'react';
 import {events} from '../lib/eventsPubSubs.js';
-import {formatDate} from '../lib/utils.js';
-
 
 class PersonDetailGradedItemPage extends React.Component {
     constructor(props){
@@ -20,7 +18,7 @@ class PersonDetailGradedItemPage extends React.Component {
              <div>            
                 <li className="list-group-item">                 
                     {this.state.gtTaskPoints + '->' +
-                        this.state.gtTaskName + '->' + formatDate(new Date(this.state.gtDateTime))
+                        this.state.gtTaskName + '->' + this.state.gtDateTime
                     }
                 </li> 
             </div>

@@ -7,13 +7,13 @@
  * @tutorial pointing-criteria
  */
 
-import {hashcode} from '../lib/utils.js';
+import {hashcode,formatDate} from '../lib/utils.js';
 
 class Task {
   constructor(name,description,id=null) {
     this.name = name;
     this.description = description;
-    this.datetime = new Date();
+    this.datetime = formatDate(new Date());
     if (!id) {
       this.id = hashcode(this.name + this.datetime);
     }else {

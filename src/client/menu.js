@@ -3,9 +3,12 @@ import {context} from './context.js';
 import {deleteCookie,setCookie,loadTemplate} from './lib/utils.js';
 import {updateFromServer} from './dataservice.js';
 import {events} from './lib/eventsPubSubs.js';
+import MenuPage from './components/menuPage.js';
 import $ from "jquery";
 //import 'bootstrap';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
+import React from 'react';
+import reactDOM from 'react-dom';
 
 //import modal from "bootstrap";
 
@@ -13,6 +16,22 @@ let settings = {};
 events.subscribe('settings/change',(obj) => {
   settings = obj;
 });
+
+events.subscribe('settings/newSubject',(obj) => {
+  addSubject()
+});
+
+events.subscribe('settings/changeSubject',(obj) => {
+  context.user.defaultSubject = obj;
+  setCookie('user',JSON.stringify(context.user),7);
+  loadTemplate('api/changeSubject',function(response) {
+    updateFromServer();
+    //context.getTemplateRanking();
+  },'GET','newsubject=' + obj,false);
+});
+
+
+
 /** Show Menu  */
 function showMenu() {
   $('#navbarNav').show();
@@ -24,7 +43,9 @@ function hideMenu() {
 }
 /** Generate menu options taking into account logged in user */
 function generateMenu() {
-  let output = '';
+  reactDOM.render(<MenuPage user={context.user}/>, document.getElementById('menu')); 
+  
+  /*let output = '';
   if (context.user.displayName) {
     output += '<li class="nav-item"><a class="nav-link" href="">' + context.user.displayName + '</a></li>';
   }
@@ -63,7 +84,7 @@ function generateMenu() {
         //context.getTemplateRanking();
       },'GET','newsubject=' + optionSubject,false);
     }
-  });
+  });*/
 }
 /** Logout. Delete session in server side and credentials in client side */
 function logout() {
