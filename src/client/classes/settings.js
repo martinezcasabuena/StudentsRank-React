@@ -23,7 +23,7 @@ events.subscribe('settings/changeWeight',(obj) => {
 });
 
 events.subscribe('settings/changeDefaultTerm',(obj) => {
-  settings.defaultTerm = obj.defaultTerm;
+  settings.defaultTerm = obj;
   events.publish('dataservice/saveSettings',settings);
   events.publish('settings/change',settings);
 });

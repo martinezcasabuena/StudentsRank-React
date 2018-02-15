@@ -4,11 +4,6 @@
       "defaultSubject": "Informatica",
       "src": "src/server/data/333342/Informatica/students.json",
       "hits": 2
-    },
-    {
-      "defaultSubject": "Prueba",
-      "src": "src/server/data/333342/Prueba/students.json",
-      "hits": 2
     }
   ]
 }

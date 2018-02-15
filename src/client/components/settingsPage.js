@@ -24,7 +24,6 @@ class SettingsPage extends React.Component {
         });
 
         events.publish('settings/changeWeight',this.state);
-        events.publish('settings/changeDefaultTerm',this.state);        
     }
 
     handleInputChange(event) {
@@ -35,6 +34,8 @@ class SettingsPage extends React.Component {
         this.setState({
           [name]: value
         });
+        events.publish('settings/changeDefaultTerm',event.target.value);        
+        
     }
 
     componentDidMount() {
