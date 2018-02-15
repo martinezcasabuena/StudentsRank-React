@@ -21,6 +21,7 @@ import React from 'react';
 import reactDOM from 'react-dom';
 import Settings from './classes/settings.js';
 import MenuPage from './components/menuPage.js';
+import LoginPage from './components/loginPage.js';
 
 
 class Context {
@@ -34,10 +35,6 @@ class Context {
       if (obj.attitudeTask.points < 0) {typeToastr = 'error';};
       this.notify('Added ' +  obj.attitudeTask.points + ' ' + obj.attitudeTask.description + ' to ' + obj.person.name + ',' + obj.person.surname, obj.person.surname + ' ,' + obj.person.name,typeToastr);
     });
-
-    /*events.subscribe('/context/newGradedTask', () => {
-      this.getTemplateRanking();
-    });*/
 
     events.subscribe('/context/getRankingTable', () => {
       this.getTemplateRanking();
@@ -74,6 +71,8 @@ class Context {
   }
   /** Show login form template when not authenticated */
   login() {
+    //reactDOM.render(<LoginPage props={}/>, document.getElementById('content'));
+           
     let that = this;
     if (!this.user) {
       this.clear();

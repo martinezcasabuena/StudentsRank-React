@@ -13,6 +13,7 @@ import PersonPage from './components/personPage.js';
 import PersonDetailPage from './components/personDetailPage.js';
 import ModalAttitudeTaskPage from './components/modalAttitudeTaskPage.js';
 import SettingsPage from './components/settingsPage.js';
+import LoginPage from './components/loginPage.js';
 import React from 'react';
 import reactDOM from 'react-dom';
 import {events} from './lib/eventsPubSubs.js';
@@ -35,14 +36,12 @@ function initRouter() {
             /** View Student information detail */
             case /#student/.test(isLink.href):
               let personInstance = Person.getPersonById(getIdFromURL(isLink.href));
-              //personInstance.getHTMLDetail();
               reactDOM.render(<PersonDetailPage student={personInstance} attitudeTasks={AttitudeTask}
               gradedTasks={personInstance.getStudentMarks()}/>, document.getElementById('content'));
               break;
             /** Modify student information */
             case /#editStudent/.test(isLink.href):
               personInstance = Person.getPersonById(getIdFromURL(isLink.href));
-              //personInstance.getHTMLEdit();
               reactDOM.render(<PersonPage props={personInstance} />, document.getElementById('content'));              
               break;
             /** Delete student with confirmation */
@@ -59,27 +58,22 @@ function initRouter() {
                 var matchResults = isLink.href.match(reg);
                 personInstance = Person.getPersonById(matchResults[1]);
                 personInstance.deleteXP(parseInt(getIdFromURL(isLink.href)));
-                //personInstance.getHTMLDetail();
                 context.getTemplateRanking();                
               }
               break;
             /** Show popup associated to an student in order to assign XP points  */
             case /#addXP/.test(isLink.href):
               personInstance = Person.getPersonById(getIdFromURL(isLink.href));
-              Person.getRankingTable();
+              context.getTemplateRanking();
               reactDOM.render(<ModalAttitudeTaskPage student={personInstance} attitudeTasks={AttitudeTask.getAttitudeTasksFromMap()}/>, document.getElementById('modal'));              
               $('#XPModal').modal('toggle');
-              //AttitudeTask.addXP(personInstance);
               break;
             /** Add new student form */
             case /#addStudent/.test(isLink.href):
-              //Person.addPerson();
               reactDOM.render(<PersonPage props={{}}/>, document.getElementById('content'));              
               break;
             case /#settings/.test(isLink.href):
-              //context.getSettings();
               reactDOM.render(<SettingsPage settings={settings}/>, document.getElementById('content'));              
-              //Settings.getSettings();
               break;
             /** logout */
             case /#logout/.test(isLink.href):
@@ -99,26 +93,20 @@ function initRouter() {
               break;
             /** Add new Graded Task form */
             case /#addGradedTask/.test(isLink.href):
-              // GradedTask.addGradedTask();
-              //reactDOM.render(<GradedTaskPage gtInstance={{}} terms={Settings.getTerms()} />, document.getElementById('content')); 		          
-              //(100 - GradedTask.getGradedTasksTotalWeight()
               reactDOM.render(<GradedTaskPage props={{term:settings.defaultTerm}} allowedWeight={(100 - GradedTask.getGradedTasksTotalWeight())} />, document.getElementById('content'));
-             
               break;
             case /#detailGradedTask/.test(isLink.href):
-              let gtInstance = GradedTask.getGradedTaskById(getIdFromURL(isLink.href));	    
-                
+              let gtInstance = GradedTask.getGradedTaskById(getIdFromURL(isLink.href));	     
               reactDOM.render(<GradedTaskPage props={gtInstance} allowedWeight={(100 - GradedTask.getGradedTasksTotalWeight() + parseInt(gtInstance.weight))} />, document.getElementById('content'));
-              
-              /*reactDOM.render(<GradedTaskPage gtInstance={gtInstance} terms={Settings.getTerms()} />, document.getElementById('content'));*/
-              //gtInstance.getHTMLEdit();
               break;
             case /#reactTest/.test(isLink.href):
-              Person.getRankingTable();
+              context.getTemplateRanking();              
               break;
 
             default:
               context.isLogged();
+              //reactDOM.render(<LoginPage props={}/>, document.getElementById('content'));   
+              
           }
         }
     };

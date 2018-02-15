@@ -13,7 +13,6 @@ import {formatDate,popupwindow,hashcode,loadTemplate,getCookie} from '../lib/uti
 import {template} from '../lib/templator.js';
 import {events} from '../lib/eventsPubSubs.js';
 import $ from "jquery";
-
 import RankingListPage from '../components/rankingListPage.js';
 import React from 'react';
 import reactDOM from 'react-dom';
@@ -35,7 +34,7 @@ events.subscribe('dataservice/SaveStudent',(obj) => {
        student.surname = obj.student.studentSurname;
       
        events.publish('dataservice/saveStudents',JSON.stringify([...students]));
-       events.publish('/context/getRankingTable');        /* person.getRankingTable(); */
+       events.publish('/context/getRankingTable');
     //NEW  
     }else{
       student = new Person(obj.student.studentName,obj.student.studentSurname,[]);
@@ -147,7 +146,6 @@ class Person {
   /** Delete XP associated to this person */
   deleteXP(taskInstanceId) {
     console.log(taskInstanceId);
-    //console.log('HOLA TINKI WINKI');
     this.attitudeTasks.forEach((itemAT) => {
         if (itemAT.id == taskInstanceId) {
           let index = this.attitudeTasks.indexOf(itemAT);
@@ -164,11 +162,8 @@ class Person {
     let gtArray = [];
     try {
       gradedtaskMAP.forEach((valueGT) => {
-        //console.log('MERDA ' + valueGT.id + 'Person id ' + this.id);
-        //gtArray.push([valueGT.id,valueGT.studentsMarkMAP.get(this.id)]);
         gtArray.push([valueGT.id,{id:valueGT.id,points:valueGT.studentsMarkMAP.get(this.id),name:valueGT.name,
           weight:valueGT.weight,datetime:formatDate(new Date(valueGT.datetime))}]);
-        
       });
 
       if (settings.defaultTerm !== 'ALL') {
@@ -186,6 +181,7 @@ class Person {
     }
     return gtArray.reverse();
   }
+
   /** Get total points over 100 taking into account different graded tasks weights */
   getGTtotalPoints() {
     let points = 0;
@@ -210,186 +206,15 @@ class Person {
     return Math.round(xpGrade + (this.getGTtotalPoints() * (settings.weightGP / 100)));
   }
   
-  /** Renders person edit form */
-  /*getHTMLEdit() {
-    let callback = function(responseText) {
-      $('#content').html(responseText);
-      let saveStudent = $('#newStudent');
-      $('#idFirstName').val(this.name);
-      $('#idSurnames').val(this.surname);
-      let studentProfile = $('#myProfile');
-      let outputImg = $('#output');
-      outputImg.attr('src','src/server/data/fotos/' + this.getId() + '.jpg');
-      let studentThis = this;
-
-      studentProfile.change(() => {
-        let input = event.target;
-        let reader = new FileReader();
-        reader.onload = function() {
-          let dataURL = reader.result;
-          //output = document.getElementById('output');
-          outputImg.attr('src',dataURL);
-        };
-        reader.readAsDataURL(input.files[0]);
-      });
-
-      saveStudent.submit(function() {
-        let oldId = studentThis.getId();
-        studentThis.name = $('#idFirstName').val();
-        studentThis.surname = $('#idSurnames').val();
-        let student = new Person(studentThis.name,studentThis.surname,studentThis.attitudeTasks,studentThis.id);
-        let formData = new FormData(saveStudent[0]);
-        let file = studentProfile[0].files[0];
-        formData.append('idStudent',student.getId());
-
-        loadTemplate('api/uploadImage',function(response) {
-          console.log(response);
-        },'POST',formData,'false');
-        students.set(student.getId(),student);
-        events.publish('dataservice/saveStudents',JSON.stringify([...students]));        
-      });
-      
-    }.bind(this);
-
-    loadTemplate('templates/addStudent.html',callback);
-  }*/
-  /** Renders person detail view */
- /* getHTMLDetail() {
-    loadTemplate('templates/detailStudent.html',function(responseText) {
-        let TPL_STUDENT = this;
-        let scope = {};
-        scope.TPL_ATTITUDE_TASKS = [];
-        this.attitudeTasks.reverse().forEach(function(atItem) {
-          let itemAT = attitudeMAP.get(parseInt(atItem.id));
-          itemAT.datetime = atItem.timestamp;
-          scope.TPL_ATTITUDE_TASKS.push(itemAT);
-        });
-        let TPL_GRADED_TASKS = '';
-        gradedtaskMAP.forEach(function(gtItem) {
-          TPL_GRADED_TASKS += '<li class="list-group-item">' + gtItem.getStudentMark(TPL_STUDENT.getId()) + '->' +
-                        gtItem.name + '->' + formatDate(new Date(gtItem.datetime)) + '</li>';
-        });
-        let out = template(responseText,scope);
-        console.log(out);
-        $('#content').html(eval('`' + out + '`'));
-      }.bind(this));
-  }*/
-  /** Add a new person to the context app */
-  /*static addPerson() {
-    let callback = function(responseText) {
-            $('#content').html(responseText);
-            let saveStudent = $('#newStudent');
-            let studentProfile = $('#myProfile');
-
-            studentProfile.change(function(event) {
-              let input = event.target;
-              let reader = new FileReader();
-              reader.onload = function() {
-                let dataURL = reader.result;
-                let output = $('#output');
-                output.src = dataURL;
-              };
-              reader.readAsDataURL(input.files[0]);
-            });
-
-            saveStudent.submit(function(event) {
-              event.preventDefault();
-              let name = $('#idFirstName').val();
-              let surnames = $('#idSurnames').val();
-              let student = new Person(name,surnames,[]);
-              var formData = new FormData(saveStudent[0]);
-              var file = studentProfile[0].files[0];
-              formData.append('idStudent',student.getId());
-
-              loadTemplate('api/uploadImage',function(response) {
-                console.log(response);
-              },'POST',formData,'false');
-
-              Person.addStudent(student);
-              return false; //Avoid form submit              
-            });
-          };
-
-    loadTemplate('templates/addStudent.html',callback);
-  }*/
   static getPersonById(idHash) {
     return students.get(parseInt(idHash));
   }
+
   static getRankingTable() {
     reactDOM.render(<RankingListPage gtWeight={Settings.getGtWeight()} xpWeight={Settings.getXpWeight()}
     students= {Person.getStudentsFromMap()} gradedTasks= {GradedTask.getGradedTasksFromMap()}/>, document.getElementById('content'));   
-    
-    /*if (students && students.size > 0) {
-     // /* We sort students in descending order from max number of points to min when we are in not expanded view 
-      let arrayFromMap = [...students.entries()];
-
-      if ($('.tableGradedTasks').is(':hidden')) {
-        arrayFromMap.sort(function(a,b) {
-          return (b[1].getFinalGrade() - a[1].getFinalGrade());
-        });
-      }
-      students = new Map(arrayFromMap);
-
-      let scope = {};
-
-      if (gradedtaskMAP && gradedtaskMAP.size > 0) {
-        scope.TPL_GRADED_TASKS = [...gradedtaskMAP.entries()].reverse();
-        if (settings.defaultTerm !== 'ALL') {
-          let aux = [];
-          for (let i = 0;i < scope.TPL_GRADED_TASKS.length;i++) {
-            if (scope.TPL_GRADED_TASKS[i][1].term === settings.defaultTerm) {
-              aux.push(scope.TPL_GRADED_TASKS[i]);
-            }
-          }
-          scope.TPL_GRADED_TASKS = aux;
-        }
-      }
-
-      scope.TPL_PERSONS = arrayFromMap;
-      let TPL_XP_WEIGHT = settings.weightXP;
-      let TPL_GT_WEIGHT = settings.weightGP;
-
-      loadTemplate('templates/rankingList.html',function(responseText) {
-              let out = template(responseText,scope);
-              $('#content').html(eval('`' + out + '`'));
-              if (getCookie('expandedView') === 'visible') {
-                $('.tableGradedTasks').show();
-                $('.fa-hand-o-right').addClass('fa-hand-o-down').removeClass('fa-hand-o-right');
-              }else {
-                $('.tableGradedTasks').hide();
-                $('.fa-hand-o-down').addClass('fa-hand-o-right').removeClass('fa-hand-o-down');
-              }
-              //let that = this;
-              let callback = function() {
-                  $('.gradedTaskInput').each(function(index) {
-                        $(this).change(function() {
-                          let idPerson = $(this).attr('idStudent');
-                          let idGradedTask = $(this).attr('idGradedTask');
-                          let gt = gradedtaskMAP.get(parseInt(idGradedTask));
-                          gt.addStudentMark(idPerson,$(this).val());
-                          //Person.getRankingTable();
-                          reactDOM.render(<RankingListPage gtWeight={Settings.getGtWeight()} xpWeight={Settings.getXpWeight()}
-                          students= {Person.getStudentsFromMap()} gradedTasks= {GradedTask.getGradedTasksFromMap()}/>, document.getElementById('content'));   
-                          //that.getTemplateRanking();
-                        });
-                      });
-                  $('.profile').each(function(index) {
-                    $(this).mouseenter(function() { //TEST
-                      $(this).removeAttr('width'); //TEST
-                      $(this).removeAttr('height'); //TEST
-                    });
-                    $(this).mouseout(function() { //TEST
-                      $(this).attr('width',48); //TEST
-                      $(this).attr('height',60); //TEST
-                    });
-                  });
-                };
-              callback();
-            });
-    }else {
-      $('#content').html('NO STUDENTS YET');
-    }*/
   }
+
   static addStudent(studentInstance) {
     events.publish('student/new',studentInstance);
     students.set(studentInstance.getId(),studentInstance);
