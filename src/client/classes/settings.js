@@ -13,6 +13,15 @@ events.subscribe('dataservice/getSettings',(obj) => {
   events.publish('settings/change',settings);
 });
 
+events.subscribe('settings/changeWeight',(obj) => {
+  $('#idXPweight').text(obj.rangeChanger + '% XP weight');
+  settings.weightXP = obj.rangeChanger;
+  $('#idGPweight').text((100 - obj.rangeChanger) + '% GP weight');
+  settings.weightGP = (100 - obj.rangeChanger);
+  events.publish('dataservice/saveSettings',settings);
+  events.publish('settings/change',settings);
+});
+
 class Settings {
   constructor(weightXP,weightGP,defaultTerm,terms) {
     this.weightXP = weightXP;
@@ -20,6 +29,7 @@ class Settings {
     this.terms = terms;
     this.defaultTerm = this.getDefaultTerm(defaultTerm);
   }
+
   getDefaultTerm(defaultTerm) {
     if (defaultTerm) {
       this.defaultTerm = defaultTerm;

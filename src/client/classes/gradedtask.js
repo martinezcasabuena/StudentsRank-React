@@ -23,7 +23,7 @@ import $ from "jquery";
 let gradedTasks = new Map();
 let settings = {};
 
-events.subscribe('dataservice/SaveGradedTask',(obj) => {
+events.subscribe('gradedTask/SaveGradedTask',(obj) => {
     let gt = {}; 
     //UPDATE
     if (obj.id) {  

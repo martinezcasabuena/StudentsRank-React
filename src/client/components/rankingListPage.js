@@ -15,6 +15,12 @@ class RankingListPage extends React.Component {
         };
 
         this.handleClick = this.handleClick.bind(this);
+        // events.subscribe('students/changeStudentMark',(obj)=> {
+        //     console.log(obj);
+        //     this.setState({
+        //         //students:obj.student
+        //    })
+        // })
     }
 
     handleClick(event){

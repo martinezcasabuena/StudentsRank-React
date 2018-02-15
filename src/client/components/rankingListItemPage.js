@@ -7,12 +7,7 @@ class RankingListItemPage extends React.Component {
         super(props);
 
         this.state = {
-            id:props.student[0],         
-            name: props.student[1].name,
-            surnames: props.student[1].surname,            
-            fg:props.student[1].getFinalGrade(),
-            xp:props.student[1].getXPtotalPoints(),
-            gt:props.student[1].getGTtotalPoints(),
+            student:props.student[1],
             index:props.index,
             gradedTasks:props.student[1].getStudentMarks()
         }
@@ -36,35 +31,35 @@ class RankingListItemPage extends React.Component {
     render() {
         //const gradedTaskItems = this.state.gradedTasks.reverse().map((gradedTask) =>
         const gradedTaskItems = this.state.gradedTasks.map((gradedTask) =>
-        <GradedTaskItemPage key={gradedTask[0]} gradedTask={gradedTask} student={this.state.id} />            
+        <GradedTaskItemPage key={gradedTask[0]} gradedTask={gradedTask} student={this.state.student} />            
         );
         return (
             <tr className="js-rowStudent">
             <td className="w-5" id="sorting"><h3>{this.state.index}</h3></td>
             <td className="w-35">
-                    <img className="profile" src="src/server/data/fotos/-569543398.jpg" height="60" width="48" onMouseOver={this.handleMouseHover}/>
-                    <a className="text-info" href={'#student/' + this.state.id}>{this.state.surnames}, {this.state.name}</a>
+                    <img className="profile" src={"src/server/data/fotos/" + this.state.student.id + '.jpg'} height="60" width="48" onMouseOver={this.handleMouseHover}/>
+                    <a className="text-info" href={'#student/' + this.state.student.id}>{this.state.student.surname}, {this.state.student.name}</a>
                 </td>
                 <td className="w-60">
                     <table id="scoreTable" className="table-condensed" width="100%">
                         <tbody>
                             <tr>
                                 <td className="w-20">        
-                                    <strong>{this.state.fg}</strong>
+                                    <strong>{this.state.student.getFinalGrade()}</strong>
                                 </td>
                                 <td className="w-20">
-                                    {this.state.xp}
+                                    {this.state.student.getXPtotalPoints()}
                                 </td>
                                 <td className="w-20">
-                                    {this.state.gt}
+                                    {this.state.student.getGTtotalPoints()}
                                 </td>
                                 <td className="w-40 text-right">
-                                <a href={'#addXP/'+this.state.id}><button className="btnS btn btn-primary">+XP</button></a>
+                                <a href={'#addXP/'+this.state.student.id}><button className="btnS btn btn-primary">+XP</button></a>
                                 
-                                <a href={'#editStudent/'+this.state.id}>
+                                <a href={'#editStudent/'+this.state.student.id}>
                                 <button className='btnS btn btn-success'><i className='fa fa-pencil fa-1x'></i></button></a>
                             
-                                <a href={'#deleteStudent/'+this.state.id}>
+                                <a href={'#deleteStudent/'+this.state.student.id}>
                                 <button className='btnS btn btn-danger'><i className='fa fa-trash-o fa-1x'></i></button></a>
                                 </td>
                             </tr>

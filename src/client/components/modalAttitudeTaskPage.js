@@ -13,6 +13,7 @@ class ModalAttitudeTaskPage extends React.Component {
                 taskDescription:''
             }*/ 
         }
+        console.log(this.state.student);
         this.handleInputChange = this.handleInputChange.bind(this);   
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleClick = this.handleClick.bind(this);
@@ -39,7 +40,6 @@ class ModalAttitudeTaskPage extends React.Component {
         //console.log(target.getAttribute('data-idat'));
         //$('#XPModal').modal('toggle');
          events.publish('attitudeTask/addXPtoStudent',({student:this.state.student,idTask:target.getAttribute('data-idat')}));
-
     }
 
     render() {
@@ -49,9 +49,7 @@ class ModalAttitudeTaskPage extends React.Component {
     
         return (
             <div>
-            <button type="button" data-target="#XPModal" data-toggle="modal" class="btn btn-info btn-lg">Update</button>
-            
-             {/* <div className="modal fade" id="XPModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> */}
+            {/* <button type="button" data-target="#XPModal" data-toggle="modal" class="btn btn-info btn-lg">Update</button> */}
             <div className="modal fade" id="XPModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">            
                <div className="modal-dialog" role="document">
                     <div className="modal-content">

@@ -6,12 +6,11 @@ class GradedTaskItemPage extends React.Component {
         super(props);
 
         this.state = {
-            taskId:props.gradedTask[0],
-            taskMark:props.gradedTask[1],            
-            taskName:props.gradedTask[2].name,
-            taskWeight:props.gradedTask[2].weight,
-            idStudent:props.student
+            student:props.student,
+            gtTask:props.gradedTask[1],
+            taskMark:props.gradedTask[1].points
         }
+
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleInputOnBlur = this.handleInputOnBlur.bind(this);   
     }
@@ -37,14 +36,14 @@ class GradedTaskItemPage extends React.Component {
                     <tbody>
                         <tr>
                             <td>
-                                <a className="text-info" href={'#detailGradedTask/' + this.state.taskId}>
-                                {this.state.taskName} ({this.state.taskWeight}%)</a>
+                                <a className="text-info" href={'#detailGradedTask/' + this.state.gtTask.id}>
+                                {this.state.gtTask.name} ({this.state.gtTask.weight}%)</a>
                             </td>
                         </tr>                
                         <tr>    
                             <td>
-                                <input type='number' name="taskMark" className='gradedTaskInput' data-idstudent={this.state.idStudent}
-                                data-idgradedtask={this.state.taskId} min="0" max="100" value={this.state.taskMark}
+                                <input type='number' name="taskMark" className='gradedTaskInput' data-idstudent={this.state.student.id}
+                                data-idgradedtask={this.state.gtTask.id} min="0" max="100" value={this.state.taskMark}
                                 onChange={this.handleInputChange} onBlur={this.handleInputOnBlur} />
                             </td> 
                         </tr>

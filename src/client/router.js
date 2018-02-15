@@ -12,6 +12,7 @@ import RankingListPage from './components/rankingListPage.js';
 import PersonPage from './components/personPage.js';
 import PersonDetailPage from './components/personDetailPage.js';
 import ModalAttitudeTaskPage from './components/modalAttitudeTaskPage.js';
+import SettingsPage from './components/settingsPage.js';
 import React from 'react';
 import reactDOM from 'react-dom';
 import {events} from './lib/eventsPubSubs.js';
@@ -29,6 +30,7 @@ function initRouter() {
         var isLink = findParent('a',e.target || e.srcElement);
         if (isLink) {
           reactDOM.unmountComponentAtNode(document.getElementById('content')); //umount react component
+          reactDOM.unmountComponentAtNode(document.getElementById('modal')); //umount react component                  
           switch (true) {
             /** View Student information detail */
             case /#student/.test(isLink.href):
@@ -47,8 +49,6 @@ function initRouter() {
             case /#deleteStudent/.test(isLink.href):
               if (window.confirm('Are you sure?')) {
                 Person.deleteById(parseInt(getIdFromURL(isLink.href)));
-                //context.students.delete(parseInt(getIdFromURL(isLink.href)));
-                //saveStudents(JSON.stringify([...context.students]));
                 context.getTemplateRanking();
               }
               break;
@@ -66,7 +66,9 @@ function initRouter() {
             /** Show popup associated to an student in order to assign XP points  */
             case /#addXP/.test(isLink.href):
               personInstance = Person.getPersonById(getIdFromURL(isLink.href));
+              Person.getRankingTable();
               reactDOM.render(<ModalAttitudeTaskPage student={personInstance} attitudeTasks={AttitudeTask.getAttitudeTasksFromMap()}/>, document.getElementById('modal'));              
+              $('#XPModal').modal('toggle');
               //AttitudeTask.addXP(personInstance);
               break;
             /** Add new student form */
@@ -76,7 +78,8 @@ function initRouter() {
               break;
             case /#settings/.test(isLink.href):
               //context.getSettings();
-              Settings.getSettings();
+              reactDOM.render(<SettingsPage settings={settings}/>, document.getElementById('content'));              
+              //Settings.getSettings();
               break;
             /** logout */
             case /#logout/.test(isLink.href):

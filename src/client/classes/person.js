@@ -29,38 +29,29 @@ let gradedtaskMAP = new Map();
 events.subscribe('dataservice/SaveStudent',(obj) => {
     let student = {};
     //UPDATE
-    if (obj.studentId) {
-       student=students.get(obj.studentId);
-       student.name = obj.studentName;
-       student.surname = obj.studentSurname;
+    if (obj.student.studentId) {
+       student=students.get(obj.student.studentId);
+       student.name = obj.student.studentName;
+       student.surname = obj.student.studentSurname;
       
        events.publish('dataservice/saveStudents',JSON.stringify([...students]));
        events.publish('/context/getRankingTable');        /* person.getRankingTable(); */
     //NEW  
     }else{
-      student = new Person(obj.studentName,obj.studentSurname,[]);
+      student = new Person(obj.student.studentName,obj.student.studentSurname,[]);
       Person.addStudent(student);
     }
-
-    // let saveStudent = $('#newStudent');
-    // let studentProfile = $('#myProfile');    
-    // var formData = new FormData(saveStudent[0]);
-    // var file = studentProfile[0].files[0];
-    // console.log(file);
-
-    
-    // formData.append('idStudent',student.getId());
-
-    // loadTemplate('api/uploadImage',function(response) {
-    //   console.log(response);
-    // },'POST',formData,'false');
+    obj.formData.append('idStudent',student.getId());    
+    loadTemplate('api/uploadImage',function(response) {
+      console.log(response);
+    },'POST',obj.formData,'false');
   }
 );
 
 //Change value of graded tasks
 events.subscribe('student/changeStudentMark',(obj) =>{
-  let idPerson = obj.idStudent;
-  let idGradedTask = obj.taskId;
+  let idPerson = obj.student.id;
+  let idGradedTask = obj.gtTask.id;
   let gt = gradedtaskMAP.get(parseInt(idGradedTask));
   gt.addStudentMark(idPerson,obj.taskMark);
 });
@@ -151,11 +142,11 @@ class Person {
     let dateTimeStamp = new Date();//Current time
     this.attitudeTasks.push({'id':taskInstance.id,'timestamp':dateTimeStamp});
     events.publish('/context/addXP',{'attitudeTask':taskInstance,'person':this});
-    events.publish('dataservice/saveStudents',JSON.stringify([...students]));
-
+    events.publish('dataservice/saveStudents',JSON.stringify([...students]));    
   }
   /** Delete XP associated to this person */
   deleteXP(taskInstanceId) {
+    console.log(taskInstanceId);
     //console.log('HOLA TINKI WINKI');
     this.attitudeTasks.forEach((itemAT) => {
         if (itemAT.id == taskInstanceId) {
@@ -175,7 +166,7 @@ class Person {
       gradedtaskMAP.forEach((valueGT) => {
         //console.log('MERDA ' + valueGT.id + 'Person id ' + this.id);
         //gtArray.push([valueGT.id,valueGT.studentsMarkMAP.get(this.id)]);
-        gtArray.push([valueGT.id,valueGT.studentsMarkMAP.get(this.id),{name:valueGT.name,
+        gtArray.push([valueGT.id,{id:valueGT.id,points:valueGT.studentsMarkMAP.get(this.id),name:valueGT.name,
           weight:valueGT.weight,datetime:formatDate(new Date(valueGT.datetime))}]);
         
       });

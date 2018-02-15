@@ -10,11 +10,11 @@ class PersonPage extends React.Component {
             studentName: props.props.name,
             studentSurname: props.props.surname,
             studentAttitudeTask:props.props.attitudeTask,
-            studentImage:props.props.image
+            myImage:props.props.image
         }        
         this.handleInputChange = this.handleInputChange.bind(this);   
         this.handleSubmit = this.handleSubmit.bind(this);
-        
+        //this.handleOnImageChange = this.handleOnImageChange.bind(this);
     }
 
     handleInputChange(event) {
@@ -26,11 +26,23 @@ class PersonPage extends React.Component {
         });
     }
 
+    // handleOnImageChange(event) {
+    //     let input = event.target;
+    //     let reader = new FileReader();
+    //     reader.onload = function() {
+    //       let dataURL = reader.result;
+    //       let output = $('#output');
+    //       output.src = dataURL;
+    //     };
+    //     reader.readAsDataURL(input.files[0]);
+    // }
+
     handleSubmit(event) {
         event.preventDefault();
+        let saveStudent = $('#newStudent');
+        var formData = new FormData(saveStudent[0]);
         console.log(this.state);
-        events.publish('dataservice/SaveStudent',this.state);   
-        //alert("STOP");
+        events.publish('dataservice/SaveStudent',{student:this.state,formData:formData});   
     }
 
     render() {
@@ -50,7 +62,7 @@ class PersonPage extends React.Component {
 
                     <div className="form-group">
                         <label htmlFor="myImage">Profile image</label>
-                        <input type="file" id="myProfile" name="studentImage" accept="image/jpeg" onChange={this.handleInputChange}/>
+                        <input type="file" id="myProfile" name="myImage" accept="image/jpeg" onChange={this.handleInputChange}/>
                         <img id="output" />
                     </div>
                     

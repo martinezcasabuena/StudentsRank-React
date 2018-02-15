@@ -32,8 +32,8 @@ events.subscribe('dataservice/getAttitudeTasks',(obj) => {
 
 //Add XP to student
 events.subscribe('attitudeTask/addXPtoStudent',(obj) =>{
-  //$('#XPModal').modal('toggle');
-  //$('.modal-backdrop').remove();
+  $('#XPModal').modal('toggle');
+  $('.modal-backdrop').remove();
   let at = attitudeTasks.get(parseInt(obj.idTask));
   at.hits++;
   obj.student.addAttitudeTask(at);
@@ -41,22 +41,17 @@ events.subscribe('attitudeTask/addXPtoStudent',(obj) =>{
 
 //Add new XP task
 events.subscribe('attitudeTask/addNewXPTask',(obj) =>{
-  console.log(obj);
   let points = $('#points').val();
   let description = $('#description').val();
-  // let points = obj.taskForm.taskPoints;
-  // let description = obj.taskForm.taskDescription;
-  // console.log(obj);
   let at = new AttitudeTask(description,description,points);
   attitudeTasks.set(at.id,at);
 
   events.publish('dataservice/saveAttitudeTasks',JSON.stringify([...attitudeTasks]));    
   events.publish('attitudeTask/change',attitudeTasks);
-  //$('#XPModal').modal('toggle');
-  //$('.modal-backdrop').remove();
+  $('#XPModal').modal('toggle');
+  $('.modal-backdrop').remove();
   at.hits++;
   obj.student.addAttitudeTask(at);
-  
 });
 
 class AttitudeTask extends Task {
@@ -70,7 +65,7 @@ class AttitudeTask extends Task {
     return attitudeTasks;
   }
   /** Open window dialog associated to a person instance and let us award him with some XP points */
-  static addXP(personInstance) {
+  /*static addXP(personInstance) {
     let that = this;
     let callback = function(responseText) {
       let scope = {};
@@ -111,7 +106,7 @@ class AttitudeTask extends Task {
       });
     };
     loadTemplate('templates/listAttitudeTasks.html',callback);
-  }
+  }*/
   static getAttitudeById(idTask) {
     return attitudeTasks.get(idTask);
   }

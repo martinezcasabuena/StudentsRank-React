@@ -16,12 +16,12 @@ class PersonDetailPage extends React.Component {
     }
     render() {
         const attitudeTasksItems = this.state.student.attitudeTasks.reverse().map((attitudeTask) =>
-        <PersonDetailAttitudeItemPage attitudeTask={this.state.attitudeTask.getAttitudeById(parseInt(attitudeTask.id))}
+        <PersonDetailAttitudeItemPage key={attitudeTask[0]} attitudeTask={this.state.attitudeTask.getAttitudeById(parseInt(attitudeTask.id))}
         idStudent={this.state.student.id}/>
         );
 
         const gradedTasksItems = this.state.gradedTasks.map((gradedTask) =>
-        <PersonDetailGradedItemPage gradedTask={gradedTask}/>
+        <PersonDetailGradedItemPage key={gradedTask[0]} gradedTask={gradedTask}/>
         );
 
         return (

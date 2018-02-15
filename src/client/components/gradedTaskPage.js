@@ -30,7 +30,7 @@ class GradedTaskPage extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        events.publish('dataservice/SaveGradedTask',this.state);        
+        events.publish('gradedTask/SaveGradedTask',this.state);        
     }
 
     render() {
@@ -45,7 +45,7 @@ class GradedTaskPage extends React.Component {
                     </div>
                     <div className="form-group">   
                         <label htmlFor="description">Task description:</label>
-                        <textarea rows="4" cols="50" className="form-control" id="idTaskDescription" name="description" defaultValue={this.state.description} onChange={this.handleInputChange}></textarea>
+                        <textarea rows="4" cols="50" className="form-control" id="idTaskDescription" name="description" value={this.state.description} onChange={this.handleInputChange}></textarea>
                     </div>
                     <div className="form-group">   
                         <label htmlFor="term">Task term:</label>
@@ -57,7 +57,7 @@ class GradedTaskPage extends React.Component {
                     </div>
                     <div className="form-group">   
                         <label id="labelWeight" htmlFor="weight">Task Weight (0-{this.state.allowedWeight} %):</label>
-                        <input type="number" name="weight" className="form-control" min="1" max ={this.state.allowedWeight} id="idTaskWeight" defaultValue={this.state.weight} onChange={this.handleInputChange} required/>
+                        <input type="number" name="weight" className="form-control" min="1" max ={this.state.allowedWeight} id="idTaskWeight" value={this.state.weight} onChange={this.handleInputChange} required/>
                     </div>
                     <input type="submit" className="btn btn-primary" value="Save"/>
                 </form> 

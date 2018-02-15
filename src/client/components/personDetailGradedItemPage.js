@@ -6,10 +6,7 @@ class PersonDetailGradedItemPage extends React.Component {
         super(props);
 
         this.state = {
-            gtTaskId:props.gradedTask[0],
-            gtTaskName:props.gradedTask[2].name,
-            gtDateTime:props.gradedTask[2].datetime,
-            gtTaskPoints: props.gradedTask[1]
+            gtTask:props.gradedTask[1]
         }
     }
 
@@ -17,8 +14,8 @@ class PersonDetailGradedItemPage extends React.Component {
         return (
              <div>            
                 <li className="list-group-item">                 
-                    {this.state.gtTaskPoints + '->' +
-                        this.state.gtTaskName + '->' + this.state.gtDateTime
+                    {this.state.gtTask.points + '->' +
+                        this.state.gtTask.name + '->' + this.state.gtTask.datetime
                     }
                 </li> 
             </div>
