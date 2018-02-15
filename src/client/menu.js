@@ -4,6 +4,7 @@ import {deleteCookie,setCookie,loadTemplate} from './lib/utils.js';
 import {updateFromServer} from './dataservice.js';
 import {events} from './lib/eventsPubSubs.js';
 import MenuPage from './components/menuPage.js';
+import ModalNewSubject from './components/modalNewSubject.js';
 import $ from "jquery";
 //import 'bootstrap';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
@@ -21,6 +22,11 @@ events.subscribe('settings/newSubject',(obj) => {
   addSubject()
 });
 
+events.subscribe('settings/saveNewSubject',(obj) => {
+  saveNewSubject(obj)
+});
+
+
 events.subscribe('settings/changeSubject',(obj) => {
   context.user.defaultSubject = obj;
   setCookie('user',JSON.stringify(context.user),7);
@@ -28,6 +34,9 @@ events.subscribe('settings/changeSubject',(obj) => {
     updateFromServer();
     //context.getTemplateRanking();
   },'GET','newsubject=' + obj,false);
+  console.log(context.user)
+  //events.publish('dataservice/saveStudents',JSON.stringify([...students]));
+  //events.publish('/context/getRankingTable'); 
 });
 
 
@@ -43,7 +52,8 @@ function hideMenu() {
 }
 /** Generate menu options taking into account logged in user */
 function generateMenu() {
-  reactDOM.render(<MenuPage user={context.user}/>, document.getElementById('menu')); 
+  reactDOM.unmountComponentAtNode(document.getElementById('menu')); //umount react component                    
+  reactDOM.render(<MenuPage user={context.user} settings={settings}/>, document.getElementById('menu')); 
   
   /*let output = '';
   if (context.user.displayName) {
@@ -99,8 +109,36 @@ function logout() {
               },'GET','',false);
 }
 
+function saveNewSubject(subject){
+  let sharedGroup = "";
+  if(subject.sharedGroups){
+    sharedGroup = subject.sharedGroups;
+  }
+  loadTemplate('api/addSubject',function(response) {
+    context.user.defaultSubject = subject.subjectName;
+    context.user.subjects.push(subject.subjectName);
+    $('#SubjectModal').modal('toggle');
+    $('.modal-backdrop').remove();
+    events.publish('/context/getRankingTable');
+    //if (funcCallback) funcCallback();
+    console.log(sharedGroup);
+    
+  },'GET','newSubject=' + subject.subjectName + '&sharedGroup=' + sharedGroup,false);
+  //return false; //Abort submit
+
+}
+
 function addSubject(funcCallback) {
-  let callback = function(responseText) {
+  reactDOM.unmountComponentAtNode(document.getElementById('modal')); //umount react component
+  loadTemplate('api/getSharedGroups',function(response) {
+    let sharedGroups = JSON.parse(response);
+    reactDOM.render(<ModalNewSubject groups={sharedGroups} />, document.getElementById('modal')); 
+    $('#SubjectModal').modal('toggle');  
+  },'GET','',false);
+  
+  
+
+  /*let callback = function(responseText) {
     $('#content').html($('#content').html() + responseText);
     //$('#content').html(responseText);
     //alert("epqoe");
@@ -142,6 +180,6 @@ function addSubject(funcCallback) {
       //return false; //Abort submit
     });
   };
-  loadTemplate('templates/addSubject.html',callback);
+  loadTemplate('templates/addSubject.html',callback);*/
 }
 export {generateMenu,addSubject,logout,showMenu,hideMenu};
