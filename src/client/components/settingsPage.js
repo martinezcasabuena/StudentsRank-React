@@ -24,6 +24,7 @@ class SettingsPage extends React.Component {
         });
 
         events.publish('settings/changeWeight',this.state);
+        events.publish('settings/changeDefaultTerm',this.state);        
     }
 
     handleInputChange(event) {
@@ -34,7 +35,6 @@ class SettingsPage extends React.Component {
         this.setState({
           [name]: value
         });
-        console.log(this.state);
     }
 
     componentDidMount() {
@@ -62,15 +62,13 @@ class SettingsPage extends React.Component {
                 <form id="existingTerms">
                     DEFAULT TERM:
                     <div className="form-group">
-                        <select id="termsItems" onChange={this.handleInputChange}>
+                        <select id="termsItems" onChange={this.handleInputChange} name="defaultTerm">
                             {terms.map((term) => 
-                            
-                                {term.name === this.state.settings.defaultTerm ? (
-                                        <option selected value={term.name}>{term.name}</option>
-                                    ) : (
-                                         <option value={term.name}>{term.name}</option>
-                                    )
-                                }
+                                term.name === this.state.settings.defaultTerm ? (
+                                    <option key={term[0]} selected value={term.name}>{term.name}</option>
+                                ) : (
+                                        <option key={term[0]} value={term.name}>{term.name}</option>
+                                )
                             )}
                             {
                                 'ALL' === this.state.settings.defaultTerm ? (
@@ -84,7 +82,7 @@ class SettingsPage extends React.Component {
                     </div>
                     
                     {terms.map((term) =>
-                        <div className="from-group">
+                        <div key={term[0]} className="from-group">
                             <label htmlFor="xp" id={"id"+term.name}>Term Name:</label><br></br>
                             <input id={"idInput"+term.name} type="text" defaultValue={term.name} name="name"/>
                             BEGIN<input id={term.name+"beginTerm"} type="date" value={term.begin}/>

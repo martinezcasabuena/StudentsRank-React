@@ -6,17 +6,19 @@ class MenuPage extends React.Component {
         super(props);
 
         this.state = {
-            user: props.user
-        }        
-        this.handleOnChange = this.handleOnChange.bind(this);   
-        
+            user: props.user,
+            settings: props.settings
+        }
+        this.handleOnChange = this.handleOnChange.bind(this);
+        console.log(this.state.user);
     }
 
     handleOnChange(event){
         if (event.target.value === 'NEW subject'){
             events.publish("settings/newSubject");
         }else{
-            events.publish("settings/changeSubject",event.target.value);            
+            events.publish("settings/changeSubject",event.target.value);
+            console.log(event.target.value);     
         }
     }
 
@@ -38,15 +40,16 @@ class MenuPage extends React.Component {
                         )}
                         <li className="nav-item"><select id="subjectsItems" onChange={this.handleOnChange}>
                         {user.subjects.map((subject) => 
-                            user.subject === user.defaultSubject ? (
-                                <option selected value={subject} >{subject}</option>
+                            subject === user.defaultSubject ? (
+                                <option key={subject[0]} selected value={subject} >{subject}</option>
                             ) : (
-                                <option value={subject} >{subject} </option>
+                                <option key={subject[0]} value={subject} >{subject} </option>
                             )
                         )}
                         <option value="NEW subject">NEW subject</option>
                         </select>
-                        <br></br><span id="termMenu"> {user.defaultTerm} </span></li>
+
+                        <br></br><span id="termMenu"> {this.state.settings.defaultTerm} </span></li>
                         <li className="nav-item"><a className="nav-link" href="#addStudent"><button className="btn btn-secondary"> + StudentS  </button></a></li>
                         <li className="nav-item"><a className="nav-link" href="#addGradedTask"><button className="btn btn-secondary"> + Graded task</button></a></li>
                         <li className="nav-item"><a className="nav-link" href="#settings"><button className="btn btn-secondary">Settings</button></a></li>

@@ -22,6 +22,12 @@ events.subscribe('settings/changeWeight',(obj) => {
   events.publish('settings/change',settings);
 });
 
+events.subscribe('settings/changeDefaultTerm',(obj) => {
+  settings.defaultTerm = obj.defaultTerm;
+  events.publish('dataservice/saveSettings',settings);
+  events.publish('settings/change',settings);
+});
+
 class Settings {
   constructor(weightXP,weightGP,defaultTerm,terms) {
     this.weightXP = weightXP;

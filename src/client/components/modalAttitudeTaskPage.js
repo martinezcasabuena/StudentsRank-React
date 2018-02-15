@@ -48,8 +48,6 @@ class ModalAttitudeTaskPage extends React.Component {
           });
     
         return (
-            <div>
-            {/* <button type="button" data-target="#XPModal" data-toggle="modal" class="btn btn-info btn-lg">Update</button> */}
             <div className="modal fade" id="XPModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">            
                <div className="modal-dialog" role="document">
                     <div className="modal-content">
@@ -64,7 +62,7 @@ class ModalAttitudeTaskPage extends React.Component {
                                 <div className="row">
                                     <div className="col-md-12">
                                         {attitudeTasks.map((attitudeTask) => 
-                                            <div>
+                                            <div key={attitudeTask[0]}>
                                                 <button className={"xp btn btn-"+ attitudeTask[1].type} 
                                                 data-idat={attitudeTask[1].id} value={attitudeTask[1].points}
                                                 onClick={this.handleClick}>
@@ -94,7 +92,6 @@ class ModalAttitudeTaskPage extends React.Component {
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
         );
     }
