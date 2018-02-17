@@ -1,5 +1,7 @@
 import React from 'react';
 import {events} from '../lib/eventsPubSubs.js';
+import DropZoneComponent from './dropZoneComponent'
+import reactDOM from 'react-dom';
 
 class ModalNewSubject extends React.Component {
     constructor(props){
@@ -29,6 +31,8 @@ class ModalNewSubject extends React.Component {
 
     render() {
         const sharedGroups = this.state.groups;
+        //const prueba = reactDOM.render(<DropZoneComponent props={{}}/>, document.getElementById('content')); 
+        
         return (
             <div className="modal fade" id="SubjectModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
@@ -42,7 +46,7 @@ class ModalNewSubject extends React.Component {
                     <div className="modal-body">
                         <div className="container-fluid">
                         <div className="row">
-                            <div className="col-md-12">       
+                            <div className="col-md-12">
                                 <form id="newSubject" className="form-inline" onSubmit={this.handleSubmit}> 
                                     <div className="form-group">
                                         <label htmlFor="text">Subject name:</label>
@@ -56,10 +60,13 @@ class ModalNewSubject extends React.Component {
                                             <option value={group.defaultSubject}> {group.defaultSubject}  -  {group.hits} students</option>
                                         )}
                                     </select>
-                                </form>     
+                                </form>
+
                             </div>                        
                         </div>
-                        </div>   
+                        </div>
+                        {/* <div id="dropZone"></div> */}
+                        <DropZoneComponent ></DropZoneComponent>
                     </div>
                     <div className="modal-footer">                         
                         <button type="button" className="btn btn-secondary" id="closeModal" data-dismiss="modal">Close</button>          

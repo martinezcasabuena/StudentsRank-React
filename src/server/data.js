@@ -9,7 +9,8 @@ var fs = require('fs');
 
 module.exports = {
   saveGradedTasks: saveGradedTasks,
-  saveStudents: saveStudents
+  saveStudents: saveStudents,
+  savePDF: savePDF
 };
 
 function saveStudents(studentsJSON) {
@@ -39,6 +40,16 @@ function saveStudents(studentsJSON) {
 function saveGradedTasks(gradedTasksJSON) {
   console.log('LLLLL ->' + JSON.stringify(gradedTasksJSON));
   fs.writeFile('src/server/data/gradedtasks.json', gradedTasksJSON, 'utf8', (err) => {
+    if (err) {
+      throw err;
+    }
+    console.log('The file has been saved!');
+  });
+}
+
+function savePDF(studentsJSON) {
+  console.log(JSON.stringify(studentsJSON));
+  fs.writeFile('src/server/data/students.json', JSON.stringify(studentsJSON), 'utf8', (err) => {
     if (err) {
       throw err;
     }

@@ -3,17 +3,7 @@
     {
       "defaultSubject": "Informatica",
       "src": "src/server/data/333342/Informatica/students.json",
-      "hits": 1
-    },
-    {
-      "defaultSubject": "Matematicas",
-      "src": "src/server/data/333342/Matematicas/students.json",
-      "hits": 0
-    },
-    {
-      "defaultSubject": "nuevo 3",
-      "src": "src/server/data/333342/nuevo 3/students.json",
-      "hits": 0
+      "hits": 2
     }
   ]
 }
