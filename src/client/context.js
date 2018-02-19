@@ -39,6 +39,30 @@ class Context {
     events.subscribe('/context/getRankingTable', () => {
       this.getTemplateRanking();
     });
+
+    events.subscribe('/context/login', (obj) => {
+      let that=context;
+      deleteCookie('connect.sid');
+      let username = obj.username;
+      let password = obj.password;
+
+      loadTemplate('api/login',function(userData) {
+        that.user = JSON.parse(userData);
+        console.log(that.user);
+       // First time we log in 
+        if (that.user.defaultSubject === 'default') {
+          console.log("addSubject in login");
+          addSubject(updateFromServer);
+          updateFromServer();
+       //  We are veteran/recurrent users 
+        }else {
+          setCookie('user',userData,7);
+          updateFromServer();
+        }
+      },'POST','username=' + username + '&password=' + password,false);
+      return false; //Avoid form submit
+
+   });
   }
   
   /** Clear context  */
@@ -71,38 +95,12 @@ class Context {
   }
   /** Show login form template when not authenticated */
   login() {
-    //reactDOM.render(<LoginPage props={}/>, document.getElementById('content'));
-           
     let that = this;
     if (!this.user) {
       this.clear();
-      loadTemplate('templates/login.html',function(responseText) {
-        hideMenu();
-        $('#content').html(eval('`' + responseText + '`'));
-        $('#loginAlert').hide();
-        let loginForm = $('#loginForm');
-
-        loginForm.submit(function(event) {
-          event.preventDefault();
-          deleteCookie('connect.sid');
-          let username = $('input[name=username]').val();
-          let password = $('input[name=password]').val();
-          loadTemplate('api/login',function(userData) {
-            that.user = JSON.parse(userData);
-            /* First time we log in */
-            if (that.user.defaultSubject === 'default') {
-              console.log("addSubject in login");
-              addSubject(updateFromServer);
-              //updateFromServer();
-            /* We are veteran/recurrent users */
-            }else {
-              setCookie('user',userData,7);
-              updateFromServer();
-            }
-          },'POST','username=' + username + '&password=' + password,false);
-          return false; //Avoid form submit
-        });
-      });
+      reactDOM.render(<LoginPage props={{}}/>, document.getElementById('content'));
+      hideMenu();
+      $('#loginAlert').hide();
     }else {
       generateMenu();
       that.getTemplateRanking();

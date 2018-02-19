@@ -6,7 +6,8 @@ class LoginPage extends React.Component {
         super(props);
 
         this.state = {                
-
+            username:'',
+            password:''
         }
         
         this.handleInputChange = this.handleInputChange.bind(this);   
@@ -25,41 +26,43 @@ class LoginPage extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-
+        events.publish('/context/login',this.state);
     }
 
     render() {
         return (
-            <div class="login-intro" style="margin-top:30px">
-                <div class="widget container">
-                    <div class="omb_login">
-                        <div class="row omb_row-sm-offset-3 omb_socialButtons">                       
-                            <div class="col-xs-12 col-sm-6">
-                                <a target="_self" href="api/loginGoogle" class="btn btn-block btn-social btn-google">
-                                    <span class="fa fa-google"></span>Sign in using iestacio.com
+            <div className="login-intro" style={{marginRight:30 + 'px'}}>
+                <div className="widget container">
+                    <div className="omb_login">
+                        <div className="row omb_row-sm-offset-3 omb_socialButtons">                       
+                            <div className="col-xs-12 col-sm-6">
+                                <a target="_self" href="api/loginGoogle" className="btn btn-block btn-social btn-google">
+                                    <span className="fa fa-google"></span>Sign in using iestacio.com
                                 </a>
                             </div>          
                         </div> 
-                        <div class="row omb_row-sm-offset-3">
-                            <div class="col-xs-12 col-sm-6">
-                                <form id="loginForm" class="omb_loginForm" autocomplete="off">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                        <input type="text" class="form-control"  name="username" placeholder="email address"/>
+                        <div className="row omb_row-sm-offset-3">
+                            <div className="col-xs-12 col-sm-6">
+                                <form id="loginForm" className="omb_loginForm" autoComplete="off"
+                                onSubmit={this.handleSubmit}>
+                                    <div className="input-group">
+                                        <span className="input-group-addon"><i className="fa fa-user"></i></span>
+                                        <input type="text" className="form-control"  name="username" placeholder="email address" onChange={this.handleInputChange}/>
                                     </div>
-                                    <span class="help-block"></span>
+                                    <span className="help-block"></span>
 
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                        <input  type="password" class="form-control" name="password" placeholder="Password"/>
+                                    <div className="input-group">
+                                        <span className="input-group-addon"><i className="fa fa-lock"></i></span>
+                                        <input type="password" className="form-control" name="password" placeholder="Password" onChange={this.handleInputChange}/>
                                     </div>
-                                    <span   class="help-block"></span><br/>
-                                    <span id="loginAlert" class="text-danger">User or password error. Bad Credentials!</span>                        
-                                    <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button><br/>
+                                    <span className="help-block"></span><br/>
+                                    <span id="loginAlert" className="text-danger">User or password error. Bad Credentials!</span>                        
+                                    <input type="submit" className="btn btn-lg btn-primary btn-block" value="Login"/>
+
                                 </form>
                             </div>
                         </div>
-                        <div class="row omb_row-sm-offset-3">
+                        <div className="row omb_row-sm-offset-3">
                             
                         </div>
                     </div>
