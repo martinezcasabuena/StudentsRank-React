@@ -26,11 +26,6 @@ class MenuPage extends React.Component {
         const user = this.state.user;
         return (
             <nav className="navbar navbar-expand-md navbar-light bg-faded">             
-                <a className="navbar-brand" href="#home"><h2><i className="fa fa-cubes fa-2x"></i>&nbsp;+x<strong>BRAIN</strong></h2></a>
-                <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">                    
-                <span className="navbar-toggler-icon"></span>
-            
-                </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul id="menuButtons" className="navbar-nav mx-auto">
                         {user.displayName ? (
